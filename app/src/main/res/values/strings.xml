@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">GitHub App</string>
+
+    <string name="hint_search">Ketik untuk mencari user</string>
+    <string name="username">Username</string>
+    <string name="name">Name</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
+    <string name="repositories">Repositories</string>
+    <string name="search">Search</string>
+    <string name="detail_user">Detail User</string>
+
+</resources>
