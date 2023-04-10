@@ -1,8 +1,8 @@
-package com.yhezra.githubapp.api
+package com.yhezra.githubapp.data.remote.api
 
-import com.yhezra.githubapp.model.DetailUser
-import com.yhezra.githubapp.model.SearchUsersResponse
-import com.yhezra.githubapp.model.UserItem
+import com.yhezra.githubapp.data.remote.model.DetailUser
+import com.yhezra.githubapp.data.remote.model.SearchUsersResponse
+import com.yhezra.githubapp.data.remote.model.UserItem
 import retrofit2.Call
 import retrofit2.http.*
 

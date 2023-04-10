@@ -1,4 +1,4 @@
-package com.yhezra.githubapp.api
+package com.yhezra.githubapp.data.remote.api
 
 import androidx.viewbinding.BuildConfig
 import okhttp3.OkHttpClient

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yhezra.githubapp.databinding.FragmentFollowBinding
-import com.yhezra.githubapp.model.UserItem
+import com.yhezra.githubapp.data.remote.model.UserItem
 import com.yhezra.githubapp.ui.home.adapter.ListUserAdapter
 
 class FollowingFragment : Fragment() {

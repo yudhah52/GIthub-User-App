@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.yhezra.githubapp.api.ApiConfig
-import com.yhezra.githubapp.model.SearchUsersResponse
-import com.yhezra.githubapp.model.UserItem
+import com.yhezra.githubapp.data.remote.api.ApiConfig
+import com.yhezra.githubapp.data.remote.model.SearchUsersResponse
+import com.yhezra.githubapp.data.remote.model.UserItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -10,7 +10,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.yhezra.githubapp.R
 import com.yhezra.githubapp.databinding.ActivityDetailUserBinding
-import com.yhezra.githubapp.model.DetailUser
+import com.yhezra.githubapp.data.remote.model.DetailUser
 import com.yhezra.githubapp.ui.detailuser.adapter.SectionPagerAdapter
 
 class DetailUserActivity : AppCompatActivity() {

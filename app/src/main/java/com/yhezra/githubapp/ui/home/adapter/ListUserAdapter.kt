@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.yhezra.githubapp.databinding.ItemUserBinding
-import com.yhezra.githubapp.model.UserItem
+import com.yhezra.githubapp.data.remote.model.UserItem
 
 class ListUserAdapter(private val listUser : List<UserItem>):RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
     class ListViewHolder(var binding:ItemUserBinding):RecyclerView.ViewHolder(binding.root) {
