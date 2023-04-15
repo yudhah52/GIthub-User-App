@@ -4,38 +4,74 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.yhezra.githubapp.data.local.entity.FavoriteUserEntity
 import com.yhezra.githubapp.databinding.ItemUserBinding
 import com.yhezra.githubapp.data.remote.model.UserItem
 
-class ListUserAdapter(private val listUser : List<UserItem>):RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
-    class ListViewHolder(var binding:ItemUserBinding):RecyclerView.ViewHolder(binding.root) {
+class ListUserAdapter(private val list: List<Any>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    companion object {
+        private const val USER_ITEM_VIEW_TYPE = 0
+        private const val FAVORITE_USER_ITEM_VIEW_TYPE = 1
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return ListViewHolder(binding)
+    override fun getItemViewType(position: Int): Int {
+        return if (list[position] is UserItem) USER_ITEM_VIEW_TYPE else FAVORITE_USER_ITEM_VIEW_TYPE
     }
 
-    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val user:UserItem = listUser[position]
-        val avatarUrl = user.avatarUrl
-        val username = user.login
-        holder.binding.tvItemName.text = username
-        Glide.with(holder.itemView.context)
-            .load(avatarUrl) // URL Gambar
-            .into(holder.binding.imgItemPhoto)
-        holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listUser[holder.adapterPosition])
-        }// im
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return if (viewType == USER_ITEM_VIEW_TYPE) {
+            UserViewHolder(binding)
+        } else {
+            FavoriteUserViewHolder(binding)
+        }
     }
 
-    override fun getItemCount(): Int {
-        return listUser.size
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is UserViewHolder -> holder.bind(list[position] as UserItem)
+            is FavoriteUserViewHolder -> holder.bind(list[position] as FavoriteUserEntity)
+        }
+    }
+
+    override fun getItemCount(): Int = list.size
+
+    inner class UserViewHolder(private val binding: ItemUserBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(user: UserItem) {
+            val avatarUrl = user.avatarUrl
+            val username = user.login
+            binding.tvItemName.text = username
+            Glide.with(binding.root)
+                .load(avatarUrl)
+                .into(binding.imgItemPhoto)
+            binding.root.setOnClickListener {
+                onItemClickCallback.onItemUserClicked(user)
+            }
+        }
+    }
+
+    inner class FavoriteUserViewHolder(private val binding: ItemUserBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(favoriteUser: FavoriteUserEntity) {
+            val avatarUrl = favoriteUser.avatarUrl
+            val username = favoriteUser.login
+            binding.tvItemName.text = username
+            Glide.with(binding.root)
+                .load(avatarUrl)
+                .into(binding.imgItemPhoto)
+            binding.root.setOnClickListener {
+                onItemClickCallback.onItemFavoriteClicked(favoriteUser)
+            }
+        }
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(user: UserItem)
+        fun onItemFavoriteClicked(item: FavoriteUserEntity)
+        fun onItemUserClicked(user:UserItem)
     }
 
     private lateinit var onItemClickCallback: OnItemClickCallback
@@ -43,5 +79,4 @@ class ListUserAdapter(private val listUser : List<UserItem>):RecyclerView.Adapte
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
-
 }

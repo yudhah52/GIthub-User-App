@@ -4,15 +4,19 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yhezra.githubapp.R
+import com.yhezra.githubapp.data.local.entity.FavoriteUserEntity
 import com.yhezra.githubapp.databinding.ActivityHomeBinding
 import com.yhezra.githubapp.data.remote.model.UserItem
 import com.yhezra.githubapp.ui.detailuser.DetailUserActivity
+import com.yhezra.githubapp.ui.favorite.FavoriteActivity
 import com.yhezra.githubapp.ui.home.adapter.ListUserAdapter
 
 class HomeActivity : AppCompatActivity(), View.OnClickListener {
@@ -43,7 +47,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
         adapter.setOnItemClickCallback(object :
             ListUserAdapter.OnItemClickCallback {
-            override fun onItemClicked(user: UserItem) {
+            override fun onItemFavoriteClicked(user: FavoriteUserEntity) {
+
+            }
+
+            override fun onItemUserClicked(user: UserItem) {
                 navigateToDetailUser(user.login!!)
             }
         })
@@ -61,17 +69,19 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
                 totalItemCount = layoutManager.itemCount
-                Log.i("HomeActivity", "$dx $dy $lastVisibleItemPosition $totalItemCount $lastTotalItem")
+                Log.i(
+                    "HomeActivity",
+                    "$dx $dy $lastVisibleItemPosition $totalItemCount $lastTotalItem"
+                )
 
                 val isLoading = homeViewModel.isLoading.value ?: false
-                if ((lastVisibleItemPosition == totalItemCount - 1) && (lastTotalItem!=totalItemCount) && !isLoading) {
+                if ((lastVisibleItemPosition == totalItemCount - 1) && (lastTotalItem != totalItemCount) && !isLoading) {
                     if (isSearching) {
                         homeViewModel.updatePage()
                         val searchText = binding.edSearch.text.toString()
                         homeViewModel.getListUserSearch(searchText)
-                    }
-                    else {
-                        homeViewModel.updateSince(totalItemCount+1)
+                    } else {
+                        homeViewModel.updateSince(totalItemCount + 1)
                         homeViewModel.getListUser()
                     }
                     lastTotalItem = totalItemCount
@@ -79,7 +89,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
         if (lastTotalItem == totalItemCount) {
-            Log.i("Followers","SCROLLPOSITION $firstVisibleItemPosition")
+            Log.i("Followers", "SCROLLPOSITION $firstVisibleItemPosition")
             layoutManager.scrollToPosition(firstVisibleItemPosition)
         }
     }
@@ -97,6 +107,24 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             Intent(this@HomeActivity, DetailUserActivity::class.java)
         moveToDetailUser.putExtra(DetailUserActivity.USERNAME, username)
         startActivity(moveToDetailUser)
+    }
+
+    private fun navigateToFavorite() {
+        val moveToFavorite =
+            Intent(this@HomeActivity, FavoriteActivity::class.java)
+        startActivity(moveToFavorite)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_favorite -> navigateToFavorite()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onClick(v: View?) {

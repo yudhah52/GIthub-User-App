@@ -9,5 +9,6 @@
     <string name="repositories">Repositories</string>
     <string name="search">Search</string>
     <string name="detail_user">Detail User</string>
+    <string name="favorite">Favorite</string>
 
 </resources>

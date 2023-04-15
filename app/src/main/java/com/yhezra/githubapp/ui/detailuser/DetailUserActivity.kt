@@ -2,18 +2,25 @@ package com.yhezra.githubapp.ui.detailuser
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.yhezra.githubapp.R
+import com.yhezra.githubapp.data.local.entity.FavoriteUserEntity
 import com.yhezra.githubapp.databinding.ActivityDetailUserBinding
 import com.yhezra.githubapp.data.remote.model.DetailUser
+import com.yhezra.githubapp.helper.ViewModelFactory
 import com.yhezra.githubapp.ui.detailuser.adapter.SectionPagerAdapter
+import kotlinx.coroutines.launch
 
-class DetailUserActivity : AppCompatActivity() {
+class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         @StringRes
@@ -25,8 +32,14 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityDetailUserBinding
+    private lateinit var detailUserViewModel: DetailUserViewModel
+    //    private val detailUserViewModel: DetailUserViewModel by viewModels()
+
     private var username: String? = null
-    private val detailUserViewModel: DetailUserViewModel by viewModels()
+    private var detailUser: DetailUser? = null
+    private var favoriteUserEntity: FavoriteUserEntity? = null
+    private var isFavorite = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +47,7 @@ class DetailUserActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         username = intent.getStringExtra(USERNAME)
+        detailUserViewModel = obtainViewModel(this@DetailUserActivity)
 
         setToolbar()
 
@@ -44,8 +58,30 @@ class DetailUserActivity : AppCompatActivity() {
         detailUserViewModel.isLoading.observe(this) {
             showLoading(it)
         }
+        detailUserViewModel.isFavoritedUser(username!!)
+        detailUserViewModel.isFavorited.observe(this) {
+            setFavorite(it)
+        }
+
+        binding.fabFavorite.setOnClickListener(this)
+        binding.imgPhoto.setOnClickListener(this)
 
         setTabs()
+    }
+
+    private fun setFavorite(isFavorite: Boolean) {
+        Log.i("SIUUU", "SIUUU CEKFAVORITE $isFavorite")
+        this.isFavorite = isFavorite
+        if (isFavorite)
+            binding.fabFavorite.setImageResource(R.drawable.ic_favorite)
+        else
+            binding.fabFavorite.setImageResource(R.drawable.ic_favorite_border)
+
+    }
+
+    private fun obtainViewModel(activity: AppCompatActivity): DetailUserViewModel {
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory).get(DetailUserViewModel::class.java)
     }
 
     private fun setToolbar() {
@@ -71,6 +107,7 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     private fun setDetailUser(detailUser: DetailUser) {
+        this.detailUser = detailUser
         Glide.with(this)
             .load(detailUser.avatarUrl) // URL Gambar
             .into(binding.imgPhoto) // im
@@ -84,8 +121,47 @@ class DetailUserActivity : AppCompatActivity() {
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE
+            binding.fabFavorite.visibility = View.GONE
         } else {
             binding.progressBar.visibility = View.GONE
+            binding.fabFavorite.visibility = View.VISIBLE
+
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.fab_favorite -> {
+
+                favoriteUserEntity = FavoriteUserEntity()
+                favoriteUserEntity.let { favoriteUserEntity ->
+                    favoriteUserEntity?.login = detailUser?.login!!
+                    favoriteUserEntity?.avatarUrl = detailUser?.avatarUrl!!
+                }
+
+                if (!isFavorite) {
+                    detailUserViewModel.insertFavorite(favoriteUserEntity!!)
+                    Log.i("SIUUU INSERT", "SIUUUUUUU INSERT")
+
+                } else {
+                    detailUserViewModel.deleteFavorite(favoriteUserEntity!!)
+                    Log.i("SIUUU DELETE", "SIUUUUUUU DELETE")
+                }
+//                detailUserViewModel.updateLoading()
+//                Handler().postDelayed(Runnable {
+//                    detailUserViewModel.isFavoritedUser(username!!)
+//                    detailUserViewModel.updateLoading()
+//                }, 3000)
+
+                Log.i(
+                    "SIUUUU",
+                    "SIUUUU $isFavorite ${favoriteUserEntity?.login}${favoriteUserEntity?.avatarUrl} \n ${detailUser?.login} ${detailUser?.avatarUrl}"
+                )
+            }
+            R.id.img_photo->{
+                detailUserViewModel.isFavoritedUser(username!!)
+
+            }
         }
     }
 

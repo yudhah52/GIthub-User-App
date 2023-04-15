@@ -6,12 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.yhezra.githubapp.data.local.entity.FavoriteUserEntity
 import com.yhezra.githubapp.databinding.FragmentFollowBinding
 import com.yhezra.githubapp.data.remote.model.UserItem
+import com.yhezra.githubapp.helper.ViewModelFactory
 import com.yhezra.githubapp.ui.home.adapter.ListUserAdapter
 
 class FollowingFragment : Fragment() {
@@ -23,7 +27,8 @@ class FollowingFragment : Fragment() {
     private val binding get() = _binding!!
     private var username = ""
 
-    private val detailUserViewModel: DetailUserViewModel by viewModels()
+//    private val detailUserViewModel: DetailUserViewModel by viewModels()
+    private lateinit var detailUserViewModel: DetailUserViewModel
 
     companion object {
         private const val EXTRA_USERNAME = "username"
@@ -51,6 +56,7 @@ class FollowingFragment : Fragment() {
         if (arguments != null) {
             username = arguments?.getString(EXTRA_USERNAME).toString()
         }
+        detailUserViewModel = obtainViewModel(requireActivity() as AppCompatActivity)
 
         detailUserViewModel.getFollowing(username)
         detailUserViewModel.listFollowing.observe(viewLifecycleOwner) { listFollowing ->
@@ -59,6 +65,10 @@ class FollowingFragment : Fragment() {
         detailUserViewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it)
         }
+    }
+    private fun obtainViewModel(activity: AppCompatActivity): DetailUserViewModel {
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[DetailUserViewModel::class.java]
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -75,7 +85,11 @@ class FollowingFragment : Fragment() {
 
         adapter.setOnItemClickCallback(object :
             ListUserAdapter.OnItemClickCallback {
-            override fun onItemClicked(user: UserItem) {
+            override fun onItemFavoriteClicked(user: FavoriteUserEntity) {
+
+            }
+
+            override fun onItemUserClicked(user: UserItem) {
             }
         })
 
