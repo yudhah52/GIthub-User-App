@@ -145,10 +145,6 @@ class DetailUserViewModel(application: Application) : ViewModel(),
 
     //FAVORITE
 
-    fun updateLoading() {
-        _isLoading.value = !_isLoading.value!!
-    }
-
     fun insertFavorite(user: FavoriteUserEntity) {
         mFavoriteUserRepository.insertFavorite(user, this)
     }

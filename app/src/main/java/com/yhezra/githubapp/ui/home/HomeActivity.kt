@@ -18,6 +18,7 @@ import com.yhezra.githubapp.data.remote.model.UserItem
 import com.yhezra.githubapp.ui.detailuser.DetailUserActivity
 import com.yhezra.githubapp.ui.favorite.FavoriteActivity
 import com.yhezra.githubapp.ui.home.adapter.ListUserAdapter
+import com.yhezra.githubapp.ui.settings.SettingsActivity
 
 class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -115,6 +116,12 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         startActivity(moveToFavorite)
     }
 
+    private fun navigateToSettings() {
+        val moveToSettings =
+            Intent(this@HomeActivity, SettingsActivity::class.java)
+        startActivity(moveToSettings)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
@@ -123,6 +130,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_favorite -> navigateToFavorite()
+            R.id.action_settings -> navigateToSettings()
         }
         return super.onOptionsItemSelected(item)
     }

@@ -55,6 +55,7 @@ class HomeViewModel : ViewModel() {
 
             override fun onFailure(call: Call<List<UserItem>>, t: Throwable) {
                 _isLoading.value = false
+                Log.e("SIUUUU","SIUUU ERROR DI SINI")
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })

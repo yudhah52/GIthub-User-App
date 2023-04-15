@@ -36,7 +36,7 @@ class FavoriteActivity : AppCompatActivity() {
 
     private fun setToolbar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = resources.getString(R.string.favorite)
+        supportActionBar?.title = resources.getString(R.string.favorites)
     }
 
     override fun onSupportNavigateUp(): Boolean {

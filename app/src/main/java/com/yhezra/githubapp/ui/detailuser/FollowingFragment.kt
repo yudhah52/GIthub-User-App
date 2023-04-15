@@ -1,5 +1,6 @@
 package com.yhezra.githubapp.ui.detailuser
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -90,6 +90,9 @@ class FollowingFragment : Fragment() {
             }
 
             override fun onItemUserClicked(user: UserItem) {
+                val moveToDetailUser = Intent(requireContext(), DetailUserActivity::class.java)
+                moveToDetailUser.putExtra(DetailUserActivity.USERNAME, user.login)
+                startActivity(moveToDetailUser)
             }
         })
 

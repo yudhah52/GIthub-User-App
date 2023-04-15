@@ -10,5 +10,10 @@
     <string name="search">Search</string>
     <string name="detail_user">Detail User</string>
     <string name="favorite">Favorite</string>
+    <string name="favorites">Favorites</string>
+    <string name="enable_dark_mode">Enable Dark Mode</string>
+    <string name="desc_dark_mode">Make your application theme dark and eye-friendly in low light environments.</string>
+
+
 
 </resources>

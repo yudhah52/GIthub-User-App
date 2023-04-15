@@ -2,13 +2,10 @@ package com.yhezra.githubapp.ui.detailuser
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -18,7 +15,6 @@ import com.yhezra.githubapp.databinding.ActivityDetailUserBinding
 import com.yhezra.githubapp.data.remote.model.DetailUser
 import com.yhezra.githubapp.helper.ViewModelFactory
 import com.yhezra.githubapp.ui.detailuser.adapter.SectionPagerAdapter
-import kotlinx.coroutines.launch
 
 class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -80,7 +76,7 @@ class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun obtainViewModel(activity: AppCompatActivity): DetailUserViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
+        val factory = ViewModelFactory.getInstance(activity.application, )
         return ViewModelProvider(activity, factory).get(DetailUserViewModel::class.java)
     }
 

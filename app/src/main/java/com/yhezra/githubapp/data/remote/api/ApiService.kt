@@ -7,14 +7,14 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
-    @Headers("Authorization: token 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")
+    @Headers("Authorization: token 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")
     @GET("users")
     fun getListUser(
         @Query("since") since: Int,
         @Query("per_page") perPage: Int
     ): Call<List<UserItem>>
 
-    @Headers("Authorization: token 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")
+    @Headers("Authorization: token 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")
     @GET("search/users")
     fun getSearchUser(
         @Query("q") username: String,
@@ -22,13 +22,13 @@ interface ApiService {
         @Query("per_page") perPage: Int
     ): Call<SearchUsersResponse>
 
-    @Headers("Authorization: token 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")
+    @Headers("Authorization: token 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")
     @GET("users/{username}")
     fun getDetailUser(
         @Path("username") username: String
     ): Call<DetailUser>
 
-    @Headers("Authorization: token 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")
+    @Headers("Authorization: token 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")
     @GET("users/{username}/following")
     fun getListFollowingUser(
         @Path("username") username: String,
@@ -36,7 +36,7 @@ interface ApiService {
         @Query("per_page") perPage: Int
     ): Call<List<UserItem>>
 
-    @Headers("Authorization: token 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")
+    @Headers("Authorization: token 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")
     @GET("users/{username}/followers")
     fun getListFollowersUser(
         @Path("username") username: String,
