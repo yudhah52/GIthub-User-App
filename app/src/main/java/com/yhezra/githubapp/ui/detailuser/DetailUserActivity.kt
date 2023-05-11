@@ -18,18 +18,8 @@ import com.yhezra.githubapp.ui.detailuser.adapter.SectionPagerAdapter
 
 class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
 
-    companion object {
-        @StringRes
-        private val TAB_TITLES = intArrayOf(
-            R.string.followers,
-            R.string.following
-        )
-        const val USERNAME = "username"
-    }
-
     private lateinit var binding: ActivityDetailUserBinding
     private lateinit var detailUserViewModel: DetailUserViewModel
-    //    private val detailUserViewModel: DetailUserViewModel by viewModels()
 
     private var username: String? = null
     private var detailUser: DetailUser? = null
@@ -66,7 +56,6 @@ class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setFavorite(isFavorite: Boolean) {
-        Log.i("SIUUU", "SIUUU CEKFAVORITE $isFavorite")
         this.isFavorite = isFavorite
         if (isFavorite)
             binding.fabFavorite.setImageResource(R.drawable.ic_favorite)
@@ -76,8 +65,8 @@ class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun obtainViewModel(activity: AppCompatActivity): DetailUserViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application, )
-        return ViewModelProvider(activity, factory).get(DetailUserViewModel::class.java)
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[DetailUserViewModel::class.java]
     }
 
     private fun setToolbar() {
@@ -107,11 +96,14 @@ class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
         Glide.with(this)
             .load(detailUser.avatarUrl) // URL Gambar
             .into(binding.imgPhoto) // im
-        binding.tvName.text = detailUser.name
-        binding.tvUsername.text = detailUser.login
-        binding.tvFollowers.text = detailUser.followers.toString()
-        binding.tvFollowing.text = detailUser.following.toString()
-        binding.tvRepository.text = detailUser.publicRepos.toString()
+        binding.apply {
+            tvName.text = detailUser.name
+            tvUsername.text = detailUser.login
+            tvFollowers.text = detailUser.followers.toString()
+            tvFollowing.text = detailUser.following.toString()
+            tvRepository.text = detailUser.publicRepos.toString()
+        }
+
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -137,28 +129,24 @@ class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
 
                 if (!isFavorite) {
                     detailUserViewModel.insertFavorite(favoriteUserEntity!!)
-                    Log.i("SIUUU INSERT", "SIUUUUUUU INSERT")
-
                 } else {
                     detailUserViewModel.deleteFavorite(favoriteUserEntity!!)
-                    Log.i("SIUUU DELETE", "SIUUUUUUU DELETE")
                 }
-//                detailUserViewModel.updateLoading()
-//                Handler().postDelayed(Runnable {
-//                    detailUserViewModel.isFavoritedUser(username!!)
-//                    detailUserViewModel.updateLoading()
-//                }, 3000)
-
-                Log.i(
-                    "SIUUUU",
-                    "SIUUUU $isFavorite ${favoriteUserEntity?.login}${favoriteUserEntity?.avatarUrl} \n ${detailUser?.login} ${detailUser?.avatarUrl}"
-                )
             }
-            R.id.img_photo->{
+            R.id.img_photo -> {
                 detailUserViewModel.isFavoritedUser(username!!)
 
             }
         }
+    }
+
+    companion object {
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.followers,
+            R.string.following
+        )
+        const val USERNAME = "username"
     }
 
 }

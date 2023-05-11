@@ -3,7 +3,6 @@ package com.yhezra.githubapp.ui.home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -48,7 +47,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
         adapter.setOnItemClickCallback(object :
             ListUserAdapter.OnItemClickCallback {
-            override fun onItemFavoriteClicked(user: FavoriteUserEntity) {
+            override fun onItemFavoriteClicked(item: FavoriteUserEntity) {
 
             }
 
@@ -70,10 +69,6 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
                 totalItemCount = layoutManager.itemCount
-                Log.i(
-                    "HomeActivity",
-                    "$dx $dy $lastVisibleItemPosition $totalItemCount $lastTotalItem"
-                )
 
                 val isLoading = homeViewModel.isLoading.value ?: false
                 if ((lastVisibleItemPosition == totalItemCount - 1) && (lastTotalItem != totalItemCount) && !isLoading) {
@@ -90,7 +85,6 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
         if (lastTotalItem == totalItemCount) {
-            Log.i("Followers", "SCROLLPOSITION $firstVisibleItemPosition")
             layoutManager.scrollToPosition(firstVisibleItemPosition)
         }
     }

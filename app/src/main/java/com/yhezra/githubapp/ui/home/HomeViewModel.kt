@@ -39,14 +39,12 @@ class HomeViewModel : ViewModel() {
                 call: Call<List<UserItem>>,
                 response: Response<List<UserItem>>
             ) {
-//                Log.i(TAG, "listuser ${response.body()}")
                 _isLoading.value = false
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         val newUserList = _listUser.value?.plus(responseBody) ?: responseBody
                         _listUser.postValue(newUserList)
-                        Log.i(TAG, "$_page $_perPage ${listUser.value?.size} ${responseBody.size} } listUser")
                     }
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
@@ -55,7 +53,6 @@ class HomeViewModel : ViewModel() {
 
             override fun onFailure(call: Call<List<UserItem>>, t: Throwable) {
                 _isLoading.value = false
-                Log.e("SIUUUU","SIUUU ERROR DI SINI")
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
@@ -63,21 +60,18 @@ class HomeViewModel : ViewModel() {
 
     fun getListUserSearch(searchText: String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getSearchUser(searchText,_page,_perPage)
+        val client = ApiConfig.getApiService().getSearchUser(searchText, _page, _perPage)
         client.enqueue(object : Callback<SearchUsersResponse> {
             override fun onResponse(
                 call: Call<SearchUsersResponse>,
                 response: Response<SearchUsersResponse>
             ) {
-//                Log.i(TAG, "listusersearch ${response.body()?.items}")
                 _isLoading.value = false
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         val newUserList = _listUser.value?.plus(responseBody.items) ?: responseBody
                         _listUser.postValue(newUserList as List<UserItem>?)
-
-                        Log.i(TAG, "$_page $_perPage ${listUser.value?.size} ${responseBody.items.size} } listUserSearch")
                     }
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
@@ -91,11 +85,11 @@ class HomeViewModel : ViewModel() {
         })
     }
 
-    fun updateSince(since:Int){
+    fun updateSince(since: Int) {
         _since = since
     }
 
-    fun updatePage(){
+    fun updatePage() {
         _page++
     }
 

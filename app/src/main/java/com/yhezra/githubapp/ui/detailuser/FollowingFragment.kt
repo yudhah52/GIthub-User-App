@@ -2,7 +2,6 @@ package com.yhezra.githubapp.ui.detailuser
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +26,6 @@ class FollowingFragment : Fragment() {
     private val binding get() = _binding!!
     private var username = ""
 
-//    private val detailUserViewModel: DetailUserViewModel by viewModels()
     private lateinit var detailUserViewModel: DetailUserViewModel
 
     companion object {
@@ -66,6 +64,7 @@ class FollowingFragment : Fragment() {
             showLoading(it)
         }
     }
+
     private fun obtainViewModel(activity: AppCompatActivity): DetailUserViewModel {
         val factory = ViewModelFactory.getInstance(activity.application)
         return ViewModelProvider(activity, factory)[DetailUserViewModel::class.java]
@@ -109,22 +108,17 @@ class FollowingFragment : Fragment() {
                 firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
                 totalItemCount = layoutManager.itemCount
-                Log.i(
-                    "Following",
-                    "FOLLOWINGSCROLL $dx $dy $firstVisibleItemPosition $lastVisibleItemPosition $totalItemCount $lastTotalItem"
-                )
 
                 val isLoading = detailUserViewModel.isLoading.value ?: false
                 if ((lastVisibleItemPosition == totalItemCount - 1) && (lastTotalItem != totalItemCount) && !isLoading) {
-                    detailUserViewModel.updatePage()
+                    detailUserViewModel.updatePage(isFollowers = false)
                     detailUserViewModel.getFollowing(username)
                     lastTotalItem = totalItemCount
                 }
             }
         })
         if (lastTotalItem == totalItemCount) {
-            Log.i("Following","SCROLLPOSITION $firstVisibleItemPosition")
-            layoutManager.scrollToPosition(firstVisibleItemPosition+1)
+            layoutManager.scrollToPosition(firstVisibleItemPosition + 1)
         }
     }
 

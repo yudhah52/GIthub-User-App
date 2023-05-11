@@ -6,16 +6,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-//@Entity(tableName = "favorite_user")
-//class FavoriteUserEntity (
-//    @field:PrimaryKey
-//    @field:ColumnInfo(name = "login")
-//    val login: String,
-//
-//    @field:ColumnInfo(name = "avatar_url")
-//    val avatarUrl: String,
-//)
-
 @Entity(tableName = "favorite_user")
 @Parcelize
 data class FavoriteUserEntity(

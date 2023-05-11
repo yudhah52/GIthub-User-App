@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="?attr/colorSecondary"
         android:padding="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -24,7 +24,6 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:scaleType="centerCrop"
-            app:civ_border_color="@color/black"
             app:civ_border_width="2dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
@@ -37,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorControlActivated"
             android:textSize="20sp"
             android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"

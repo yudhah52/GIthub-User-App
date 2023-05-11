@@ -2,7 +2,6 @@ package com.yhezra.githubapp.data.local
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.yhezra.githubapp.data.local.entity.FavoriteUserEntity
 import com.yhezra.githubapp.data.local.room.FavoriteUserDao
 import com.yhezra.githubapp.data.local.room.FavoriteUserDatabase

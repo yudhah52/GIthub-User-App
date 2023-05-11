@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -20,6 +19,7 @@ import kotlin.concurrent.timerTask
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,11 +37,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         Timer().schedule(timerTask {
             val moveToHomeActivity = Intent(this@MainActivity, HomeActivity::class.java)
             startActivity(moveToHomeActivity)
             finish()
-        }, 3000)
+        }, SPLASH_TIMER)
+    }
+
+    companion object {
+        const val SPLASH_TIMER = 3000L
     }
 }

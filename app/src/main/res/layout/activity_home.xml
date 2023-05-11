@@ -20,7 +20,7 @@
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-
+        app:hintTextColor="?attr/colorOnSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:startIconDrawable="@drawable/ic_baseline_search_24">

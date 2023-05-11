@@ -35,7 +35,9 @@ class DetailUserViewModel(application: Application) : ViewModel(),
     private val _isFavorited = MutableLiveData<Boolean>()
     val isFavorited: LiveData<Boolean> = _isFavorited
 
-    private var _page = 1
+    private var _followersPage = 1
+    private var _followingPage = 1
+
     private val _perPage = 40
 
     companion object {
@@ -50,7 +52,6 @@ class DetailUserViewModel(application: Application) : ViewModel(),
                 call: Call<DetailUser>,
                 response: Response<DetailUser>
             ) {
-                Log.i(TAG, "detailuser ${response.body()}")
 
                 _isLoading.value = false
                 if (response.isSuccessful) {
@@ -73,13 +74,13 @@ class DetailUserViewModel(application: Application) : ViewModel(),
 
     fun getFollowing(username: String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getListFollowingUser(username, _page, _perPage)
+        val client =
+            ApiConfig.getApiService().getListFollowingUser(username, _followingPage, _perPage)
         client.enqueue(object : Callback<List<UserItem>> {
             override fun onResponse(
                 call: Call<List<UserItem>>,
                 response: Response<List<UserItem>>
             ) {
-//                Log.i(TAG,"listfollowing ${response.body()}")
 
                 _isLoading.value = false
                 if (response.isSuccessful) {
@@ -88,10 +89,6 @@ class DetailUserViewModel(application: Application) : ViewModel(),
                         val newFollowList = _listFollowing.value?.plus(responseBody) ?: responseBody
                         _listFollowing.postValue(newFollowList)
 
-                        Log.i(
-                            TAG,
-                            "$_page $_perPage ${listFollowing.value?.size} ${responseBody.size} } listFollowing"
-                        )
                     }
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
@@ -107,13 +104,13 @@ class DetailUserViewModel(application: Application) : ViewModel(),
 
     fun getFollowers(username: String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getListFollowersUser(username, _page, _perPage)
+        val client =
+            ApiConfig.getApiService().getListFollowersUser(username, _followersPage, _perPage)
         client.enqueue(object : Callback<List<UserItem>> {
             override fun onResponse(
                 call: Call<List<UserItem>>,
                 response: Response<List<UserItem>>
             ) {
-//                Log.i(TAG,"listfollowers ${response.body()}")
 
                 _isLoading.value = false
                 if (response.isSuccessful) {
@@ -122,10 +119,6 @@ class DetailUserViewModel(application: Application) : ViewModel(),
                         val newFollowList = _listFollowers.value?.plus(responseBody) ?: responseBody
                         _listFollowers.postValue(newFollowList)
 
-                        Log.i(
-                            TAG,
-                            "$_page $_perPage ${listFollowers.value?.size} ${responseBody.size} } listFollowers"
-                        )
                     }
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
@@ -139,8 +132,8 @@ class DetailUserViewModel(application: Application) : ViewModel(),
         })
     }
 
-    fun updatePage() {
-        _page++
+    fun updatePage(isFollowers: Boolean) {
+        if (isFollowers) _followersPage++ else _followingPage++
     }
 
     //FAVORITE

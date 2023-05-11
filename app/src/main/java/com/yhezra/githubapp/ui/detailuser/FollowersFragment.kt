@@ -2,7 +2,6 @@ package com.yhezra.githubapp.ui.detailuser
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +43,7 @@ class FollowersFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFollowBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -58,8 +57,8 @@ class FollowersFragment : Fragment() {
         detailUserViewModel = obtainViewModel(requireActivity() as AppCompatActivity)
 
         detailUserViewModel.getFollowers(username)
-        detailUserViewModel.listFollowers.observe(viewLifecycleOwner){
-                listFollowers -> setListFollowers(listFollowers)
+        detailUserViewModel.listFollowers.observe(viewLifecycleOwner) { listFollowers ->
+            setListFollowers(listFollowers)
         }
         detailUserViewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it)
@@ -85,7 +84,7 @@ class FollowersFragment : Fragment() {
 
         adapter.setOnItemClickCallback(object :
             ListUserAdapter.OnItemClickCallback {
-            override fun onItemFavoriteClicked(user: FavoriteUserEntity) {
+            override fun onItemFavoriteClicked(item: FavoriteUserEntity) {
 
             }
 
@@ -109,19 +108,16 @@ class FollowersFragment : Fragment() {
                 firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
                 totalItemCount = layoutManager.itemCount
-                Log.i("Followers","FOLLOWERSSCROLL $dx $dy $firstVisibleItemPosition $lastVisibleItemPosition $totalItemCount $lastTotalItem")
-
                 val isLoading = detailUserViewModel.isLoading.value ?: false
-                if ((lastVisibleItemPosition == totalItemCount - 1) && (lastTotalItem!=totalItemCount) && !isLoading) {
-                    detailUserViewModel.updatePage()
+                if ((lastVisibleItemPosition == totalItemCount - 1) && (lastTotalItem != totalItemCount) && !isLoading) {
+                    detailUserViewModel.updatePage(isFollowers = true)
                     detailUserViewModel.getFollowers(username)
                     lastTotalItem = totalItemCount
                 }
             }
         })
         if (lastTotalItem == totalItemCount) {
-            Log.i("Followers","SCROLLPOSITION $firstVisibleItemPosition")
-            layoutManager.scrollToPosition(firstVisibleItemPosition+1)
+            layoutManager.scrollToPosition(firstVisibleItemPosition + 1)
         }
     }
 

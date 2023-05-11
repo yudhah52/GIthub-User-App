@@ -3,7 +3,6 @@ package com.yhezra.githubapp.ui.favorite
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,13 +45,12 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     private fun setFavoriteList(listFavorite: List<FavoriteUserEntity>) {
-        Log.i("FAVORITE SIUUU", "SIUUU FAVORITE $listFavorite")
         val adapter = ListUserAdapter(listFavorite)
 
         adapter.setOnItemClickCallback(object :
             ListUserAdapter.OnItemClickCallback {
             override fun onItemFavoriteClicked(user: FavoriteUserEntity) {
-                navigateToDetailUser(user.login!!)
+                navigateToDetailUser(user.login)
 
             }
 

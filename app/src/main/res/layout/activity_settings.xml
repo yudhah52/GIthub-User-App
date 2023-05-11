@@ -11,34 +11,33 @@
         android:id="@+id/tv_darkmode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:text="@string/enable_dark_mode"
+        android:textColor="?attr/colorOnSecondary"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/enable_dark_mode" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_desc_darkmode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_marginRight="32dp"
-        android:textColor="@color/grey"
+        android:text="@string/desc_dark_mode"
         android:textSize="14sp"
-
         app:layout_constraintEnd_toStartOf="@id/switch_theme"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_darkmode"
-        android:text="@string/desc_dark_mode" />
+        app:layout_constraintTop_toBottomOf="@id/tv_darkmode" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch_theme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/tv_darkmode"
-        app:layout_constraintBottom_toBottomOf="@id/tv_desc_darkmode"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
+        app:layout_constraintBottom_toBottomOf="@id/tv_desc_darkmode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_darkmode" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
